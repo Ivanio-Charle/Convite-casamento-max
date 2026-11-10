@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Rsvp {
+  id              String   @id @default(cuid())
+  fullName        String   @map("full_name") @db.VarChar(120)
+  phone           String   @db.VarChar(40)
+  normalizedPhone String   @unique @map("normalized_phone") @db.VarChar(30)
+  attending       Boolean
+  companionsCount Int      @default(0) @map("companions_count")
+  message         String?  @db.Text
+  idempotencyKey  String?  @unique @map("idempotency_key") @db.VarChar(64)
+  guests          Guest[]
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([attending])
+  @@index([createdAt(sort: Desc)])
+  @@map("rsvps")
+}
+
+model Guest {
+  id        String   @id @default(cuid())
+  rsvpId    String   @map("rsvp_id")
+  fullName  String   @map("full_name") @db.VarChar(120)
+  isPrimary Boolean  @default(false) @map("is_primary")
+  rsvp      Rsvp     @relation(fields: [rsvpId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([rsvpId])
+  @@map("guests")
+}

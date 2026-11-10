@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-cormorant: "Cormorant Garamond", Georgia, Cambria, "Times New Roman", serif;
+    --font-montserrat: "Montserrat", system-ui, -apple-system, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #f8f5ef;
+    color: #40362e;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #f8f5ef;
+    color: #40362e;
+    font-family: var(--font-montserrat);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #b99a68;
+    color: #ffffff;
+  }
+}
+
+/* Textura subtil de papel de algodão editorial */
+.paper-texture {
+  background-image: radial-gradient(
+    rgba(185, 154, 104, 0.11) 0.75px,
+    transparent 0.75px
+  );
+  background-size: 22px 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
